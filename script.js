@@ -8,7 +8,7 @@ const gameboard = (function () {
         for (let i = 0; i < rows; i++) {
         board[i] = [];
         for (let j = 0; j < cols; j++)
-            board[i].push('x') 
+            board[i].push(j); 
         }
     }
 
@@ -22,10 +22,31 @@ const gameboard = (function () {
     }
 })();
 
+function placePiece(row, column, board, player) {
+    // decrements index by 1 to make selections match gameboard start at index 1
+    row--;
+    column--;
+    // console.log(board[row][column]);
+    board[row][column] = (player == playerOne ? 1 : -2);
+    return {
+        board
+    }
+}
+
+function createPlayer() {
+    const playerOne = prompt("Enter player one name: ");
+    const playerTwo = prompt("Enter player two name: ");
+    console.log(playerOne, playerTwo);
+
+    return {
+        playerOne,
+        playerTwo
+    }
+}
+
 console.log(gameboard.board);
-
-/* function Player() */
-
+// placePiece(1, 2, gameboard.board, playerOne);
+// createPlayer();
 
 /* Set up your project with HTML, CSS and Javascript files and get the Git repo all set up.
 You’re going to store the gameboard as an array inside of a Gameboard object, so start there! Your players are also going to be stored in objects, and you’re probably going to want an object to control the flow of the game itself.
