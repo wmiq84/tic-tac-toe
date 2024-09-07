@@ -1,4 +1,3 @@
-
 const gameboard = (function () {
     const row = 3;
     const col = 3;
@@ -22,13 +21,37 @@ const gameboard = (function () {
     }
 })();
 
+const players = (function () {
+    function createPlayer() {
+        const playerOneName = prompt("Enter player one name: ");
+        const playerTwoName = prompt("Enter player two name: ");
+        console.log(playerOne, playerTwo);
+
+        var playerOne = true;
+        var playerTwo = false;
+
+        return {
+            playerOneName,
+            playerTwoName,
+            playerOne,
+            playerTwo
+        }
+    }
+
+    const createPlayerInstance = createPlayer()
+    
+    return {
+        createPlayerInstance
+    }
+})();
+
 function placePiece(row, col, board, player) {
     // decrements index by 1 to make selections match gameboard start at index 1
     row--;
     col--;
 
     // console.log(board[row][column]);
-    board[row][col] = (player == createPlayer.playerOne ? 1 : -2);
+    board[row][col] = (player === true ? 1 : -2);
 
     checkWin(board);
 
@@ -66,17 +89,6 @@ function checkWin(board) {
         board[0][2] == board[1][1] && 
         board[1][1] == board[2][0]) {
         return true;
-    }
-}
-
-function createPlayer() {
-    const playerOne = prompt("Enter player one name: ");
-    const playerTwo = prompt("Enter player two name: ");
-    console.log(playerOne, playerTwo);
-
-    return {
-        playerOne,
-        playerTwo
     }
 }
 
