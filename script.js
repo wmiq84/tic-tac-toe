@@ -1,35 +1,71 @@
 
 const gameboard = (function () {
-    const rows = 3;
-    const cols = 3;
+    const row = 3;
+    const col = 3;
     const board = [];
 
-    function createBoard(rows, cols) {
-        for (let i = 0; i < rows; i++) {
-        board[i] = [];
-        for (let j = 0; j < cols; j++)
-            board[i].push(j); 
+    function createBoard(row, col) {
+        for (let i = 0; i < row; i++) {
+            board[i] = [];
+            for (let j = 0; j < col; j++)
+                board[i].push(0); 
+            }
         }
-    }
 
-    createBoard(rows, cols)
+    createBoard(row, col)
 
     return {
-        rows,
-        cols,
+        row,
+        col,
         board,
         createBoard
     }
 })();
 
-function placePiece(row, column, board, player) {
+function placePiece(row, col, board, player) {
     // decrements index by 1 to make selections match gameboard start at index 1
     row--;
-    column--;
+    col--;
+
     // console.log(board[row][column]);
-    board[row][column] = (player == playerOne ? 1 : -2);
+    board[row][col] = (player == createPlayer.playerOne ? 1 : -2);
+
+    checkWin(board);
+
     return {
         board
+    }
+}
+
+function checkWin(board) {
+    //check rows
+    for (let i = 0; i < board.length; i++) {
+        if (board[i][0] != 0 && 
+            board[i][0] == board[i][1] && 
+            board[i][1] == board[i][2]) {
+            return true;
+        }
+    }
+
+    //check columns
+    for (let j = 0; j < board.length; j++) {
+        if (board[0][j] != 0 && 
+            board[0][j] == board[1][j] && 
+            board[1][j] == board[2][j]) {
+            return true;
+        }
+    }
+
+    //check diagonals
+    if (board[0][0] != 0 && 
+        board[0][0] == board[1][1] && 
+        board[1][1] == board[2][2]) {
+        return true;
+    }
+    if (board[0][2] != 0 && 
+        board[0][2] == board[1][1] && 
+        board[1][1] == board[2][0]) {
+        return true;
     }
 }
 
