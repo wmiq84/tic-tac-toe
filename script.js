@@ -8,7 +8,6 @@ const gameboard = (function () {
 
     // create players
     const playerOne = createPlayer("One", true);
-    const playerTwo = createPlayer("Two", false);
 
     function handleClick(event) {
         const newTile = event.target;
@@ -38,7 +37,17 @@ const gameboard = (function () {
         }
     }
     
-    createBoard(row, col);
+    function start(row, col) {
+        btn = document.querySelector('button');
+        btn.addEventListener('click', () => {
+            while (uiBoard.children.length) {
+                uiBoard.removeChild(uiBoard.children[0]);
+            };
+            createBoard(row, col);
+        });
+    }
+
+    start(row, col);
 
     return {
         row,
@@ -57,11 +66,6 @@ function createPlayer(name, isTurn) {
 
 const game = (function () {
     function placePiece(row, col, board, playerOne, newTile) {
-        // const row = prompt("Enter player one name: ");
-        // const col = prompt("Enter player two name: ");
-        // decrements index by 1 to make selections match gameboard start at index 1
-        // row--;
-        // col--;
         board[row][col] = (playerOne.isTurn ? 1 : -1);
         // allow for turns
         console.log("agg");
@@ -108,6 +112,7 @@ const game = (function () {
     }
 
     function displayWin(win, playerOne) {
+        const uiBoard = document.querySelector(".board");
         const nameOne = document.querySelector("#first-name");
         const nameTwo = document.querySelector("#second-name");
         const winLabel = document.querySelector(".win");
@@ -118,11 +123,13 @@ const game = (function () {
             else {
                 winLabel.textContent = nameTwo.value + " wins!"
             }
+            while (uiBoard.children.length) {
+                uiBoard.removeChild(uiBoard.children[0]);
+            }
         }
     }
     return {
         placePiece,
         checkWin
     }
-    
 })();
