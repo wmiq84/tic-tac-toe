@@ -5,63 +5,75 @@ const gameboard = (function () {
     const col = 3;
     const board = [];
 
+    // create players
+    const playerOne = createPlayer("One", true);
+    const playerTwo = createPlayer("Two", false);
+
+    function handleClick(event) {
+        const newTile = event.target;
+        const rowIndex = newTile.dataset.index[0];
+        const colIndex = newTile.dataset.index[1];
+
+        if (board[rowIndex][colIndex] === 0) {
+            game.placePiece(rowIndex, colIndex, board, playerOne, newTile);
+            newTile.removeEventListener('click', handleClick);
+            console.log("Tile already occupied");
+        }
+    }
+
     function createBoard(row, col) {
         for (var i = 0; i < row; i++) {
             board[i] = [];
             for (var j = 0; j < col; j++) {
                 board[i].push(0); 
 
-                // add tiles to GUI
                 let newTile = document.createElement('label');
-                newTile.textContent = `${i}${j}`;
                 newTile.classList.add('tile');
                 newTile.dataset.index = `${i}${j}`;
-                newTile.addEventListener('click', event => {
-                    console.log(newTile.dataset.index);
-                    game.placePiece(newTile.dataset.index[0], newTile.dataset.index[1], board, playerOne, newTile);
-                    // newTile.textContent = 'x';
-                });
+
+                // add tiles to GUI
+                newTile.addEventListener('click', handleClick);
                 uiBoard.appendChild(newTile);
             }
         }
     }
-    createBoard(row, col)
+    
+    createBoard(row, col);
 
     return {
         row,
         col,
         board,
         createBoard
-    }
+    };
 })();
 
 function createPlayer(name, isTurn) {
     return {
         name,
         isTurn
-    }
+    };
 }
 
 const game = (function () {
-    function placePiece(row, col, board, player, newTile) {
+    function placePiece(row, col, board, playerOne, newTile) {
         // const row = prompt("Enter player one name: ");
         // const col = prompt("Enter player two name: ");
         // decrements index by 1 to make selections match gameboard start at index 1
         // row--;
         // col--;
-        
         board[row][col] = (playerOne.isTurn ? 1 : -1);
-
-
         // allow for turns
         playerOne.isTurn = !playerOne.isTurn;
         newTile.textContent = (playerOne.isTurn === false ? 'X' : 'O');
         console.log("p1: " + playerOne.isTurn)
+        console.log(board);
         console.log(checkWin(board));
 
         return {
             board
         }
+        
     }
 
     function checkWin(board) {
@@ -108,7 +120,6 @@ const game = (function () {
 
 
 
-const playerOne = createPlayer("One", true)
 
 // game.placePiece(1, 1, board, playerOne);
 
