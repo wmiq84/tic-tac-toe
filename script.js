@@ -67,6 +67,7 @@ const game = (function () {
         console.log("agg");
         playerOne.isTurn = !playerOne.isTurn;
         newTile.textContent = (playerOne.isTurn === false ? 'X' : 'O');
+        checkWin(board, playerOne);
         return {
             board
         }
@@ -80,8 +81,6 @@ const game = (function () {
                 board[i][1] == board[i][2]) {
                 let win = true;
                 displayWin(win, playerOne);     
-                console.log("ASDSAD");     
-                displayWin(win, playerOne);   
             }
         }
         //check columns
@@ -90,7 +89,6 @@ const game = (function () {
                 board[0][j] == board[1][j] && 
                 board[1][j] == board[2][j]) {
                 const win = true;
-                console.log("ASDSAD");     
                 displayWin(win, playerOne);     
             }
         }
@@ -110,16 +108,15 @@ const game = (function () {
     }
 
     function displayWin(win, playerOne) {
-        const nameOne = document.querySelector("#first-name")
-        const nameTwo = document.querySelector("#second-name")
+        const nameOne = document.querySelector("#first-name");
+        const nameTwo = document.querySelector("#second-name");
+        const winLabel = document.querySelector(".win");
         if (win === true){
             if (playerOne.isTurn) {
-                console.log("ASAFFSAF");
-                console.log(nameOne.value);
+                winLabel.textContent = nameOne.value + " wins!"
             }
             else {
-                console.log("ASAFFSAF");
-                console.log(nameTwo.value);
+                winLabel.textContent = nameTwo.value + " wins!"
             }
         }
     }
