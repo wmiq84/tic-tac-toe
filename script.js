@@ -1,4 +1,5 @@
 
+
 const gameboard = (function () {
     const uiBoard = document.querySelector(".board");
     const row = 3;
@@ -17,7 +18,6 @@ const gameboard = (function () {
         if (board[rowIndex][colIndex] === 0) {
             game.placePiece(rowIndex, colIndex, board, playerOne, newTile);
             newTile.removeEventListener('click', handleClick);
-            console.log("Tile already occupied");
         }
     }
 
@@ -64,94 +64,68 @@ const game = (function () {
         // col--;
         board[row][col] = (playerOne.isTurn ? 1 : -1);
         // allow for turns
+        console.log("agg");
         playerOne.isTurn = !playerOne.isTurn;
         newTile.textContent = (playerOne.isTurn === false ? 'X' : 'O');
-        console.log("p1: " + playerOne.isTurn)
-        console.log(board);
-        console.log(checkWin(board));
-
         return {
             board
         }
         
     }
 
-    function checkWin(board) {
-    //check rows
-    for (let i = 0; i < board.length; i++) {
-        if (board[i][0] != 0 && 
-            board[i][0] == board[i][1] && 
-            board[i][1] == board[i][2]) {
-            return true;
+    function checkWin(board, playerOne) {
+        for (let i = 0; i < board.length; i++) {
+            if (board[i][0] != 0 && 
+                board[i][0] == board[i][1] && 
+                board[i][1] == board[i][2]) {
+                let win = true;
+                displayWin(win, playerOne);     
+                console.log("ASDSAD");     
+                displayWin(win, playerOne);   
+            }
+        }
+        //check columns
+        for (let j = 0; j < board.length; j++) {
+            if (board[0][j] != 0 && 
+                board[0][j] == board[1][j] && 
+                board[1][j] == board[2][j]) {
+                const win = true;
+                console.log("ASDSAD");     
+                displayWin(win, playerOne);     
+            }
+        }
+        //check diagonals
+        if (board[0][0] != 0 && 
+            board[0][0] == board[1][1] && 
+            board[1][1] == board[2][2]) {
+            let win = true;
+            displayWin(win, playerOne);
+        }
+        if (board[0][2] != 0 && 
+            board[0][2] == board[1][1] && 
+            board[1][1] == board[2][0]) {
+            let win = true;
+            displayWin(win, playerOne);
         }
     }
-    //check columns
-    for (let j = 0; j < board.length; j++) {
-        if (board[0][j] != 0 && 
-            board[0][j] == board[1][j] && 
-            board[1][j] == board[2][j]) {
-            return true;
+
+    function displayWin(win, playerOne) {
+        const nameOne = document.querySelector("#first-name")
+        const nameTwo = document.querySelector("#second-name")
+        if (win === true){
+            if (playerOne.isTurn) {
+                console.log("ASAFFSAF");
+                console.log(nameOne.value);
+            }
+            else {
+                console.log("ASAFFSAF");
+                console.log(nameTwo.value);
+            }
         }
-    }
-    //check diagonals
-    if (board[0][0] != 0 && 
-        board[0][0] == board[1][1] && 
-        board[1][1] == board[2][2]) {
-        return true;
-    }
-    if (board[0][2] != 0 && 
-        board[0][2] == board[1][1] && 
-        board[1][1] == board[2][0]) {
-        return true;
-    }
     }
     return {
         placePiece,
         checkWin
     }
-})();
-
-// function screenController() {
-
-// }
-
-
-
-
-
-
-
-// game.placePiece(1, 1, board, playerOne);
-
-// console.log(game.checkWin(board));
-// game.placePiece(2, 2, board, playerOne);
-
-// console.log(game.checkWin(board));
-// game.placePiece(2, 3, board, playerOne);
-
-// const players = (function () {
-//     function createPlayer() {
-//         const playerOneName = "One";
-//         const playerTwoName = "Two";
-
-//         // const playerOneName = prompt("Enter player one name: ");
-//         // const playerTwoName = prompt("Enter player two name: ");
-//         console.log(playerOneName, playerTwoName);
-
-//         var playerOne = true;
-//         var playerTwo = false;
-
-//         return {
-//             playerOneName,
-//             playerTwoName,
-//             playerOne,
-//             playerTwo
-//         }
-//     }
-
-//     const createPlayerInstance = createPlayer()
     
-//     return {
-//         createPlayerInstance
-//     }
-// })();
+})();
